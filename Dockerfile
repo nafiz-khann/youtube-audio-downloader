@@ -1,4 +1,4 @@
-# Use a newer Node.js base image (node:18 based on Debian Bullseye)
+# Use node:18 (Debian Bullseye)
 FROM node:18
 
 # Set non-interactive mode to avoid prompts
@@ -10,9 +10,15 @@ RUN apt-get update --allow-releaseinfo-change && \
     apt-utils \
     ffmpeg \
     python3 \
-    python3-pip && \
+    python3-pip \
+    curl \
+    libffi-dev \
+    libssl-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Upgrade pip to the latest version
+RUN pip3 install --no-cache-dir --upgrade pip
 
 # Install yt-dlp
 RUN pip3 install --no-cache-dir yt-dlp
