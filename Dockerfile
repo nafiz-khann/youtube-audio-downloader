@@ -1,10 +1,10 @@
 # Use node:18 (Debian Bullseye)
 FROM node:18
 
-# Set non-interactive mode to avoid prompts
+# Set non-interactive mode
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update package lists and install dependencies
+# Update package lists
 RUN apt-get update --allow-releaseinfo-change && \
     apt-get install -y --no-install-recommends \
     apt-utils \
@@ -17,14 +17,17 @@ RUN apt-get update --allow-releaseinfo-change && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Upgrade pip to the latest version
+# Upgrade pip
 RUN pip3 install --no-cache-dir --upgrade pip
 
-# Install yt-dlp
-RUN pip3 install --no-cache-dir yt-dlp
+# Install yt-dlp and dependencies
+RUN pip3 install --no-cache-dir --verbose \
+    yt-dlp \
+    pycryptodomex \
+    requests
 
 # Install Express
-RUN npm install express
+RUN npm install --no-cache express
 
 # Set working directory
 WORKDIR /app
